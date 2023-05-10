@@ -48,7 +48,7 @@
                   <div class="rd-navbar-nav-wrap" id="rd-navbar-nav-wrap-1">
                     <!-- RD Navbar Nav-->
                     <ul class="rd-navbar-nav">
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.html">Acceuil</a>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.html">Accueil</a>
                       </li>
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="#">Attestation cartes</a>
                       </li>
@@ -98,7 +98,7 @@
               <h1 class="breadcrumbs-custom-title">Attestation</h1>
             </div>
             <ul class="breadcrumbs-custom-path">
-              <li><a href="index.html">Acceuil</a></li>
+              <li><a href="index.html">Accueil</a></li>
               <li class="active">Attestation</li>
             </ul>
           </div>
@@ -186,7 +186,7 @@
                         <span class="font-weight-bold mb-3">Quel carte voulez-vous rechargez ?</span>
                         <div class="d-flex justify-content-between mb-5 mt-3">
 
-                          <div class="form-check" v-for="card in cards" :key="card.type">
+                          <div class="form-check" v-for="card in cards[0].data" :key="card.type">
 
                             <input class="form-check-input" type="radio" name="type" id="exampleRadios1"
                               :value="card.type" v-model="selectedType">
@@ -418,8 +418,8 @@
           
         )
         .then((response) => {
-          this.cards= response.data
-        
+          this.cards.push(response.data)
+        console.log(this.cards[0].data);
         })
         .catch((error) => {
           console.log(error);
