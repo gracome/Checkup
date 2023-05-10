@@ -487,7 +487,7 @@
               total += Number(this.confirmation[i].price);
             }
             this.montantTotal = total;
-            axios.post('https://attestationcoupon.onrender.com/api/getAttestation', data )
+            axios.post('https://attestationcoupon.onrender.com/api/attestation', data )
             .then(response => {
               this.etape = 'etape3'
               console.log('Données envoyées avec succès', response);
