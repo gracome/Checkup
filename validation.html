@@ -411,7 +411,6 @@
       },
       methods: {
         getcardListes(){
-          console.log("object");
           axios
         .get(
           `https://attestationcoupon.onrender.com/api/card-types`
@@ -419,7 +418,6 @@
         )
         .then((response) => {
           this.cards.push(response.data)
-        console.log(this.cards[0].data);
         })
         .catch((error) => {
           console.log(error);
@@ -465,13 +463,17 @@
           }
         },
         submitConfirm(){
+
+          let jsonString = JSON.stringify(this.confirmation);
+
           let data= {
             "fullname": this.name,
             "phone": this.phone,
             "email": this.email,
             "ticketType": this.selectedType,
-            "refills": this.confirmation
+            "refills": this.jsonString
           }
+          console.log(jsonString);
           let isCorrect = true;
           for (let i = 0; i < this.demandes.length; i++) {
             if (this.demandes[i].cardNumber !== this.confirmation[i].cardNumber || this.demandes[i].price !== this.confirmation[i].price) {
@@ -485,16 +487,18 @@
               total += Number(this.confirmation[i].price);
             }
             this.montantTotal = total;
-            axios.post('https://attestationcoupon.onrender.com/api/getAttestation', data)
+            axios.post('https://attestationcoupon.onrender.com/api/getAttestation', data )
             .then(response => {
+              this.etape = 'etape3'
               console.log('Données envoyées avec succès', response);
             })
             .catch(error => {
+              alert("Une erreur s'est produite")
               console.error('Erreur lors de l\'envoi des données', error);
             });
 
 
-            this.etape = 'etape3'
+            
           } else {
             alert('Les informations saisies ne sont pas correctes. Veillez réssayez');
             this.etape= 'etape2'
