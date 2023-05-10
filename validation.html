@@ -200,7 +200,7 @@
                           <div v-for="(demande, index) in demandes" :key="index" class="container row mb-4">
                             <div class="col-md-8 wow-outer ">
                               <div class="form-wrap wow fadeSlideInUp ">
-                                <input class="form-input" type="tel" name="phone" v-model="demande.cardNumber" placeholder="Entrez votre numero de carte">
+                                <input class="form-input" type="text" name="phone" v-model="demande.cardNumber" placeholder="Entrez votre numero de carte">
                               </div>
                             </div>
 
@@ -233,7 +233,7 @@
                           <div v-for="(conf, index) in confirmation" :key="index" class="container row mb-4">
                             <div class="col-md-8 wow-outer">
                               <div class="form-wrap wow fadeSlideInUp">
-                                <input class="form-input" type="tel" name="number" v-model="conf.cardNumber" placeholder="Entrez votre numero de carte">
+                                <input class="form-input" type="text" name="number" v-model="conf.cardNumber" placeholder="Entrez votre numero de carte">
                               </div>
                             </div>
 
@@ -454,7 +454,6 @@
 
             for (let i = 0; i < this.demandes.length; i++) {
               this.confirmation[i].price = this.montantsSelectionnes[i];
-              console.log(this.confirmation[i].price);
             }
             
             this.etape = 'etape2'
