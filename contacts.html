@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+
+<head>
+  <title>Contacts</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport"
+    content="width=device-width height=device-height initial-scale=1.0 maximum-scale=1.0 user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
+    integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <!-- Stylesheets-->
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+  <div id="app">
+
+
+    <div class="page">
+      <!-- Page Header-->
+      <header class="section page-header">
+        <!-- RD Navbar-->
+        <div class="rd-navbar-wrap">
+          <nav class="rd-navbar rd-navbar-minimal" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed"
+            data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static"
+            data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static"
+            data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static"
+            data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px"
+            data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-main-outer">
+              <div class="rd-navbar-main">
+                <!-- RD Navbar Panel-->
+                <div class="rd-navbar-panel">
+                  <!-- RD Navbar Toggle-->
+                  <button class="rd-navbar-toggle" data-rd-navbar-toggle="#rd-navbar-nav-wrap-1"><span></span></button>
+                  <!-- RD Navbar Brand--><a class="rd-navbar-brand" href="index.html"><img src="images/I.png" alt=""
+                      width="199" height="22" /></a>
+                </div>
+                <div class="rd-navbar-main-element">
+                  <div class="rd-navbar-nav-wrap" id="rd-navbar-nav-wrap-1">
+                    <!-- RD Navbar Nav-->
+                    <ul class="rd-navbar-nav">
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.html">Acceuil</a>
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="validation.html">Attestation cartes</a>
+                      </li>
+
+                      <li class="rd-nav-item active"><a class="rd-nav-link" href="contacts.html">Contacts</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- RD Navbar Search-->
+
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <!-- Breadcrumbs -->
+      <section class="breadcrumbs-custom bg-image context-dark" style="background-image: url(images/carou6.png);">
+        <div class="breadcrumbs-custom-inner">
+          <div class="container breadcrumbs-custom-container">
+            <div class="breadcrumbs-custom-main">
+              <h6 class="breadcrumbs-custom-subtitle title-decorated">Contacts</h6>
+              <h1 class="breadcrumbs-custom-title">Contacts</h1>
+            </div>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="index.html">Acceuil</a></li>
+              <li class="active">Contacts</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Map & contacts-->
+      <section class="section bg-gray-100">
+        <div class="range justify-content-xl-between">
+          <div class="cell-xl-6 align-self-center container">
+            <div class="row">
+              <div class="col-lg-9 cell-inner">
+                <div class="section-lg">
+                  <h3 class="wow-outer"><span class="wow slideInDown">Contactez nous</span></h3>
+                  <div v-if="messageError" :class="{'alert': true, 'alert-danger': success, 'alert-info': !success}"
+                    role="alert">
+                    {{ messageSuccess }}
+                  </div>
+                  <!-- RD Mailform-->
+                  <form class="rd-form rd-mailform" method="post">
+                    <div class="row row-10">
+                      <div class="col-md-6 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-first-name">Nom</label>
+                          <input class="form-input" id="contact-first-name" type="text" name="name" v-model="lastName"
+                            data-constraints="@Required" placeholder="Entrez votre nom">
+                        </div>
+                      </div>
+                      <div class="col-md-6 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-last-name">Prénom</label>
+                          <input class="form-input" id="contact-last-name" type="text" name="name" v-mode="firstName"
+                            data-constraints="@Required" placeholder="Entrez votre prénom">
+                        </div>
+                      </div>
+                      <div class="col-md-12 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-email">E-mail</label>
+                          <input class="form-input" id="contact-email" type="email" name="email" v-model="email"
+                            data-constraints="@Email @Required" placeholder="Entrez votre email">
+                        </div>
+                      </div>
+
+                      <div class="col-12 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-message">Votre Message</label>
+                          <textarea class="form-input" id="contact-message" name="message" v-model="message"
+                            data-constraints="@Required" placeholder="Entrez votre message"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="group group-middle">
+                      <div class="wow-outer">
+                        <button class="button button-primary button-winona wow slideInRight" type="submit"
+                          @click.prevent="submitContact">Envoyer</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <!-- Page Footer-->
+      <footer class="section footer-minimal bg-primary-darken">
+        <div class="container">
+          <div class="footer-minimal-inner"><a class="brand" href="index.html"><img src="images/I__light.png" alt=""
+                width="199" height="22" /></a>
+            <!-- Rights-->
+            <p class="rights"><span>&copy;&nbsp;</span><span class="copyright-year"></span>. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <div class="preloader">
+      <div class="preloader-logo"><img src="images/I.png" alt="" width="199" height="22" />
+      </div>
+      <div class="preloader-body">
+        <div id="loadingProgressG">
+          <div class="loadingProgressG" id="loadingProgressG_1"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Javascript-->
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          lastName: "",
+          firstName: "",
+          email: "",
+          message: "",
+          messageError: false,
+          messageSuccess: null,
+          success: false
+
+        }
+
+
+      },
+
+      methods: {
+        submitContact() {
+          axios.post('https://attestationcoupon.onrender.com/api/contact', {
+            email: this.email,
+            fullname: this.lastName + ' ' + this.firstName,
+            message: this.message
+          }
+
+          )
+
+            .then(response => {
+              this.success = true;
+              this.messageSuccess = "Message envoyé !"
+            })
+            .catch(error => {
+              this.success = true;
+              this.messageSuccess = "Une erreur s'est produite. Veillez réessayez plus tard !"
+            })
+        },
+
+      },
+
+
+
+
+    })
+
+
+    app.mount('#app')
+  </script>
+
+
+
+  <script src="js/core.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>

