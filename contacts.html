@@ -129,8 +129,8 @@
                     </div>
                     <div class="group group-middle">
                       <div class="wow-outer">
-                        <button class="button button-primary button-winona wow slideInRight" type="submit"
-                          @click.prevent="submitContact">Envoyer</button>
+                        <button class="button button-primary button-winona wow slideInRight" type="submit" 
+                          @click.prevent="submitContact" > Envoyer</button>
                       </div>
                     </div>
                   </form>
@@ -176,7 +176,8 @@
           message: "",
           messageError: false,
           messageSuccess: null,
-          success: false
+          success: false,
+          submitting: false
 
         }
 
@@ -185,6 +186,7 @@
 
       methods: {
         submitContact() {
+          this.submitting = true
           axios.post('https://attestationcoupon.onrender.com/api/contact', {
             email: this.email,
             fullname: this.lastName + ' ' + this.firstName,
@@ -194,12 +196,27 @@
           )
 
             .then(response => {
-              this.success = true;
+              this.submitting = false
+
+              this.success = false;
+              this.messageError= true
               this.messageSuccess = "Message envoyé !"
+              this.email = ""
+              this.lastName= ""
+              this.firstName= ""
+              this.message= ""
+              setTimeout(() => {
+               this.messageError = false
+              }, 3000);
             })
             .catch(error => {
+              this.submitting = false
+              this.messageError= true
               this.success = true;
               this.messageSuccess = "Une erreur s'est produite. Veillez réessayez plus tard !"
+              setTimeout(() => {
+                this.messageError = false
+               }, 3000);
             })
         },
 

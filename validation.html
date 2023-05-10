@@ -197,14 +197,14 @@
 
                         </div>
                         <div class="row row-10">
-                          <div v-for="(demande, index) in demandes" :key="index" class="container row">
-                            <div class="col-md-8 wow-outer">
-                              <div class="form-wrap wow fadeSlideInUp">
+                          <div v-for="(demande, index) in demandes" :key="index" class="container row mb-4">
+                            <div class="col-md-8 wow-outer ">
+                              <div class="form-wrap wow fadeSlideInUp ">
                                 <input class="form-input" type="tel" name="phone" v-model="demande.cardNumber" placeholder="Entrez votre numero de carte">
                               </div>
                             </div>
 
-                            <div class="col-md-4 wow-outer">
+                            <div class="col-md-4 wow-outer mt-2">
                               <div class="form-wrap wow fadeSlideInUp">
                                 <select class="custom-select" name="amount" v-model="demande.price">
                                   <option value="" disabled>Montant</option>
@@ -230,14 +230,14 @@
                       <form class="rd-form rd-mailform" method="post">
                        
                         <div class="row row-10">
-                          <div v-for="(conf, index) in confirmation" :key="index" class="container row">
+                          <div v-for="(conf, index) in confirmation" :key="index" class="container row mb-4">
                             <div class="col-md-8 wow-outer">
                               <div class="form-wrap wow fadeSlideInUp">
                                 <input class="form-input" type="tel" name="number" v-model="conf.cardNumber" placeholder="Entrez votre numero de carte">
                               </div>
                             </div>
 
-                            <div class="col-md-4 wow-outer">
+                            <div class="col-md-4 wow-outer ">
                               <div class="form-wrap wow fadeSlideInUp">
                                 <select class="custom-select" name="amount" v-model="conf.price">
                                   <option :value="conf.price"> {{conf.price }} <span
