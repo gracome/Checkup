@@ -144,7 +144,8 @@
                     <div class="group group-middle">
                       <div class="wow-outer">
                         <button @click.prevent="submitIdentity"
-                          class="button button-primary button-winona wow slideInRight"><span
+                        :disabled="submitting"
+                          class="button button-primary button-winona wow slideInRight"><span 
                             v-if="!submitting">Valider</span> <span v-else class="load-spinner">
                           </span></button>
                       </div>
@@ -221,6 +222,7 @@
                         <div class="group group-middle">
                           <div class="wow-outer">
                             <button @click.prevent="submitDemande()"
+                            :disabled="submitting"
                               class="button button-primary button-winona wow slideInRight"> <span
                               v-if="!submitting">Valider</span> <span v-else class="load-spinner">
                             </span></buttton>
@@ -257,8 +259,9 @@
                         <div class="group group-middle">
                           <div class="wow-outer">
                             <button @click.prevent="submitConfirm()"
+                            :disabled="submitting"
                               class="button button-primary button-winona wow slideInRight"><span
-                              v-if="!submitting">Valider</span> <span v-else class="load-spinner">
+                              v-if="!submitting">Confirmer</span> <span v-else class="load-spinner">
                             </span></buttton>
                           </div>
                         </div>
