@@ -130,7 +130,9 @@
                     <div class="group group-middle">
                       <div class="wow-outer">
                         <button class="button button-primary button-winona wow slideInRight" type="submit" 
-                          @click.prevent="submitContact" > Envoyer</button>
+                          @click.prevent="submitContact" > <span
+                          v-if="!submitting">Envoyer</span> <span v-else class="load-spinner">
+                        </span></button>
                       </div>
                     </div>
                   </form>
