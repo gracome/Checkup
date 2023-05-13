@@ -189,9 +189,9 @@
 
                           <div class="form-check" v-for="card in cards[0].data" :key="card.type">
 
-                            <input class="form-check-input" type="radio" name="type" id="exampleRadios1"
+                            <input class="form-check-input" type="radio" name="type" :id="'cardType'+card.type"
                               :value="card.type" v-model="selectedType">
-                            <label class="form-check-label" for="exampleRadios1">
+                            <label class="form-check-label" :for="'cardType'+card.type">
                               {{ card.name }}
                             </label>
                           </div>
@@ -275,17 +275,32 @@
 
                       </div>
                       <div class="container d-flex justify-content-center bg-white p-4 text-danger">
-                        <span>
-                          Le service d'attestation de demande de coupon en ligne, certifie la demande d'attestation de
-                          M/Mme/Mlle <span class="font-weight-bold">{{name}}</span>. Estimer a une valeur de <span
-                            class="font-weight-bold">{{ montantTotal }} €</span>. <br>
-                          Ce {{new Date().toLocaleDateString()}} {{new Date().toLocaleTimeString()}}.
-                          <br>
-                          <br>
-                          <br>
-                          <span style="font-size: 12px;">Votre attestation vous a été envoyé par mail. Si vous ne
-                            recevez pas votre attestation, veillez consultez votre dossier spam.</span>
-                        </span>
+                        <div style="width: 100%; overflow: hidden;">
+                          <span>
+                            Le service d'attestation de demande de coupon en ligne, certifie la demande d'attestation de
+                            M/Mme/Mlle <span class="font-weight-bold">{{name}}</span>. Estimer a une valeur de <span
+                              class="font-weight-bold">{{ montantTotal }} €</span>. <br>
+                            Ce {{new Date().toLocaleDateString()}} {{new Date().toLocaleTimeString()}}.
+                            <br>
+                            <br>
+                            <br>
+  
+                          </span>
+
+                          <div style="color: black; width: 1000px; display: none;">
+                            <div id="attFile" v-html="attContent"></div>
+                          </div>
+
+                          <button @click.prevent="downloadPDF()"
+                              :disabled="submitting"
+                              class="button button-primary button-winona wow slideInRight"
+                            >
+                                <span v-if="!submitting">
+                                  Télécharger votre attesation
+                                </span>
+                                <span v-else class="load-spinner"></span>
+                            </buttton>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -293,7 +308,7 @@
 
               </div>
             </div>
-            <div class="d-none d-sm-block col-12 col-lg-5 col-xl-4 align-self-center container">
+            <div class="d-none d-sm-block col-12 col-lg-5 col-xl-4 container">
               <div class="contact-side-info mb-10"
                 :style="{'text-decoration': etape === 'etape2' || etape === 'etape3' ? 'line-through' : 'none'}">
                 <h2
@@ -375,7 +390,14 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
   </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <script>
+    const { jsPDF } = window.jspdf;
+    
     const app = Vue.createApp({
       data() {
         return {
@@ -409,6 +431,9 @@
 
           montantsSelectionnes: "",
           montantTotal: 0,
+
+          attFilename: "",
+          attContent: ""
           
         }
 
@@ -448,12 +473,15 @@
             
           }else{
             alert("Veillez remplir tout les champs")
+            this.submitting= false
+
           }
         },
         submitDemande() {
           this.submitting= true
           if(!this.selectedType){
             alert('Veillez voisir le type de carte que vous voulez rechargé')
+            this.submitting= false
             return
           }
           const cardType = this.selectedType
@@ -475,6 +503,7 @@
             this.etape = 'etape2'
           }else{
            alert("Veillez rechargé au moins une carte")
+           this.submitting= false
           }
         },
         submitConfirm(){
@@ -505,6 +534,9 @@
             .then(response => {
               this.submitting= false
               this.etape = 'etape3'
+              console.log(response)
+              this.attFilename = response.data.data.attFile.filename
+              this.attContent = response.data.data.attFile.content
             })
             .catch(error => {
               this.submitting= false
@@ -515,8 +547,33 @@
             
           } else {
             alert('Les informations saisies ne sont pas correctes. Veillez réssayez');
-            
+            this.submitting= false
           }
+        },
+
+        downloadPDF() {
+          this.submitting= true
+          const doc = new jsPDF({
+            orientation: 'l',
+            unit: 'mm',
+            format: 'a4',
+          });
+
+          var self = this
+
+          const attFile = document.querySelector("#attFile")
+
+          // if(attFile.length > 0) {
+            doc.html(attFile, {
+              callback: function(doc) {
+                  doc.save(self.attFilename);
+              },
+              x: 15,
+              y: 15,
+              width: 172,
+              windowWidth: 900
+            });
+          // }
         }
 
 
