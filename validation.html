@@ -649,8 +649,8 @@
           getcardListes() {
             axios
               .get(
-                // `https://attestationcoupon.onrender.com/api/card-types`
-                `http://localhost:8003/api/card-types`
+                `https://attestationcoupon.onrender.com/api/card-types`
+                // `http://localhost:8003/api/card-types`
               )
               .then((response) => {
                 this.cards.push(response.data);
@@ -735,8 +735,8 @@
                 total += Number(this.confirmation[i].price);
               }
               this.montantTotal = total;
-              // axios.post('https://attestationcoupon.onrender.com/api/attestation', data )
-              axios
+              axios.post('https://attestationcoupon.onrender.com/api/attestation', data )
+              // axios
                 .post("http://localhost:8003/api/attestation", data)
                 .then((response) => {
                   this.submitting = false;
